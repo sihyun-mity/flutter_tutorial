@@ -50,25 +50,21 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  void _handleCounter(type) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+      switch (type) {
+        case 'decrease':
+          if (_counter > 0) _counter--;
+          break;
 
-  void _decrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      if (_counter > 0) _counter--;
+        case 'increase':
+          _counter++;
+          break;
+
+        case 'reset':
+          _counter = 0;
+          break;
+      }
     });
   }
 
@@ -124,21 +120,29 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Container(
               margin: const EdgeInsets.only(left: 20),
               child: FloatingActionButton(
-                  onPressed: _decrementCounter,
+                  onPressed: () => _handleCounter('decrease'),
                   tooltip: 'Decrement',
                   child: const Icon(Icons.remove)),
             ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: FloatingActionButton(
+                onPressed: () => _handleCounter('reset'),
+                tooltip: 'Reset',
+                child: const Icon(Icons.restart_alt)),
           ),
           Align(
             alignment: Alignment.bottomRight,
             child: Container(
               margin: const EdgeInsets.only(right: 20),
               child: FloatingActionButton(
-                  onPressed: _incrementCounter,
-                  tooltip: 'Increment',
-                  child: const Icon(Icons.add)),
+                onPressed: () => _handleCounter('increase'),
+                tooltip: 'Increment',
+                child: const Icon(Icons.add),
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
